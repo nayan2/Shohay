@@ -1,0 +1,12 @@
+{
+  "name": "Shohay",
+  "displayName": "Shohay",
+  "fireBase": {
+    "apiKey": "AIzaSyBV_1gQklKs4Rt2zQhx-pEKjxa89aHTZLs",
+    "authDomain": "shohay-1e0ce.firebaseapp.com",
+    "databaseURL": "https://shohay-1e0ce.firebaseio.com",
+    "projectId": "shohay-1e0ce",
+    "storageBucket": "shohay-1e0ce.appspot.com",
+    "messagingSenderId": "697467962088"
+  }
+}
