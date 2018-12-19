@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import fireBase from 'firebase'; 
+// import fireBase from 'firebase'; 
 import { connect } from 'react-redux';
+import { logInSuccess, logInFailed } from './actions';
 
 class LoadingScreen extends Component {
     componentWillMount() {
@@ -41,8 +42,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    logInSuccess: user => dispatch({ type: 'LOGIN_SUCCESS', user }),
-    logInFailed: user => dispatch({ type: 'LOGIN_FAILED', user })
+    logInSuccess: user => dispatch(logInSuccess(user)),
+    logInFailed: user => dispatch(logInFailed(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);

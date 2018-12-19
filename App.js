@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import { View, StyleSheet, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
+import { Root } from 'native-base';
 import fireBase from 'firebase';
 import store from './src/store';
 import { fireBase as fireBaseConfig } from './app.json';
@@ -20,11 +21,13 @@ class App extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Provider store={store}>
-          <Navigator />
-        </Provider>
-      </View>
+      <Root>
+        <View style={styles.container}>
+          <Provider store={store}>
+            <Navigator />
+          </Provider>
+        </View>
+      </Root>
     );
   }
 }

@@ -18,14 +18,31 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import fireBase from 'firebase'; 
+import { setPhone, setPassword, submitForm, logInSuccess, logInFailed } from '../../actions';
+import { displayErrorMessage } from '../../helpers';
 
 class signIn extends Component {
     componentWillMount() {
-
+        if (this.props.user.isLoggedIn) {
+            this.props.navigation.navigate('AuthLoaded');
+        }
     }
-
-    registerMe() {
-        alert('sign me up');
+ 
+    signMeIn = async(phone, password) => {
+        try {
+            const email = `${phone}@shohay.com`;
+            fireBase.auth().signInWithEmailAndPassword(email, password)
+                            .then((user) => {
+                                this.props.logInSuccess(user);
+                            })
+                            .catch((error) => {
+                                this.props.logInFailed({});
+                                console.log(error);
+                                displayErrorMessage('Invalid PhoneNumber Or Password');
+                            });
+        } catch (error) {
+            console.log(['something went wrong in catch block', error]);
+        }
     }
 
     render() {
@@ -62,7 +79,7 @@ class signIn extends Component {
                         </Item>
                     </Form>
                     <Button 
-                        onPress={() => this.registerMe()}
+                        onPress={() => this.signMeIn(this.props.phone, this.props.password)}
                         block
                         style={{ margin: 15, marginTop: 50 }}
                     >
@@ -87,12 +104,16 @@ class signIn extends Component {
 const mapStateToProps = (state) => ({
     phone: state.SignIn.phone,
     password: state.SignIn.password,
-    isSubmitted: state.SignIn.isSubmitted
+    isSubmitted: state.SignIn.isSubmitted,
+    user: state.User
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setPhone: phoneNumber => dispatch({ type: 'SET_PHONE', payload: phoneNumber }),
-    setPassword: password => dispatch({ type: 'SET_PASSWORD', payload: password })
+    setPhone: phoneNumber => dispatch(setPhone(phoneNumber)),
+    setPassword: password => dispatch(setPassword(password)),
+    submitForm: (isSubmitted) => dispatch(submitForm(isSubmitted)),
+    logInSuccess: (user) => dispatch(logInSuccess(user)),
+    logInFailed: (user) => dispatch(logInFailed(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(signIn);
