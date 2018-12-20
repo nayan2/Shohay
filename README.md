@@ -16,8 +16,8 @@ react-native link
 
 ## Contributing
 [Md. Amjad Hossain](https://github.com/nayan2/Shohay)
+and 
 [Shariar onik](https://github.com/shahriarhossain)
-///////////////
 
 ## License
 ///////////////
