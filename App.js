@@ -21,13 +21,13 @@ class App extends Component {
 
   render() {
     return (
-      <Root>
-        <View style={styles.container}>
-          <Provider store={store}>
+      <View style={styles.container}>
+        <Provider store={store}>
+          <Root>
             <Navigator />
-          </Provider>
-        </View>
-      </Root>
+          </Root>
+        </Provider>
+      </View>
     );
   }
 }
@@ -37,11 +37,19 @@ const AuthLoadingStackNavigator = createStackNavigator({
   dashboard
 });
 
-const AuthStackNavigator = createStackNavigator({
-  signUpPhone,
-  signUpConfirmCode,
-  signUp
-});
+const AuthStackNavigator = createStackNavigator(
+  {
+    signUpPhone,
+    signUpConfirmCode,
+    signUp
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
 
 const Navigator = createSwitchNavigator({
   AuthLoading: LoadingScreen,
@@ -52,6 +60,6 @@ const Navigator = createSwitchNavigator({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   }
 });

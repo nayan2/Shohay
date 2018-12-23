@@ -1,58 +1,59 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-// import fireBase from 'firebase'; 
+import { StyleSheet } from 'react-native';
+import fireBase from 'firebase';
 import { connect } from 'react-redux';
+import { Container, Content, Spinner } from 'native-base';
 import { logInSuccess, logInFailed } from './actions';
 
 class LoadingScreen extends Component {
     componentWillMount() {
-        // fireBase.auth().onAuthStateChanged(user => {
-        //     if (user) {
-        //         this.props.logInSuccess(user);
-        //     } else {
-        //         this.props.logInFailed(user);
-        //     }
-        // });
+        fireBase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.props.logInSuccess(user);
+                this.checkUserStatus();
+            } else {
+                this.props.logInFailed(user);
+                this.checkUserStatus();
+            }
+        });
     }
 
     checkUserStatus() {
-        // console.log(this.props.user);
-        if (this.props.user.isLoggedIn == null) {
-            return (
-                <ActivityIndicator
-                    style={styles.indicator}
-                    size="large" color=""
-                />
-            );
-        }
-        this.props.navigation.navigate(this.props.user.isLoggedIn ? 'AuthLoaded' : 'SignInScreen'); 
+        console.log(this.props.user);
+        this.props.navigation.navigate(
+            this.props.user.isLoggedIn ? 'AuthLoaded' : 'SignInScreen'
+        );
     }
 
     render() {
         return (
-            <View>
-                {this.checkUserStatus()}
-            </View>
+            <Container style={styles.container}>
+                <Content>
+                    <Spinner size="large" />
+                </Content>
+            </Container>
         );
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     user: state.User
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     logInSuccess: user => dispatch(logInSuccess(user)),
     logInFailed: user => dispatch(logInFailed(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoadingScreen);
 
 const styles = StyleSheet.create({
-    indicator: {
+    container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     }
 });
-

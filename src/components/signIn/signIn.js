@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import {
     Container,
     Header,
@@ -9,17 +9,18 @@ import {
     Input,
     Left,
     Button,
-    Icon,
     Body,
     Title,
     Right,
     Text,
-    View
+    View,
 } from 'native-base';
 import { connect } from 'react-redux';
-import fireBase from 'firebase'; 
+import fireBase from 'firebase';
 import { setPhone, setPassword, submitForm, logInSuccess, logInFailed } from '../../actions';
 import { displayErrorMessage } from '../../helpers';
+
+const BDFlagImage = require('../../assets/bd-flag.png');
 
 class signIn extends Component {
     componentWillMount() {
@@ -27,19 +28,19 @@ class signIn extends Component {
             this.props.navigation.navigate('AuthLoaded');
         }
     }
- 
-    signMeIn = async(phone, password) => {
+
+    signMeIn = async (phone, password) => {
         try {
             const email = `${phone}@shohay.com`;
             fireBase.auth().signInWithEmailAndPassword(email, password)
-                            .then((user) => {
-                                this.props.logInSuccess(user);
-                            })
-                            .catch((error) => {
-                                this.props.logInFailed({});
-                                console.log(error);
-                                displayErrorMessage('Invalid PhoneNumber Or Password');
-                            });
+                .then((user) => {
+                    this.props.logInSuccess(user);
+                })
+                .catch((error) => {
+                    this.props.logInFailed({});
+                    console.log(error);
+                    displayErrorMessage('Invalid PhoneNumber Or Password');
+                });
         } catch (error) {
             console.log(['something went wrong in catch block', error]);
         }
@@ -49,11 +50,7 @@ class signIn extends Component {
         return (
             <Container style={styles.container}>
                 <Header>
-                    <Left>
-                        <Button transparent onPress={() => this.props.navigation.goBack()}>
-                            <Icon name="arrow-back" />
-                        </Button>
-                    </Left>
+                    <Left />
                     <Body>
                         <Title>Shohay</Title>
                     </Body>
@@ -62,23 +59,27 @@ class signIn extends Component {
                 <Content>
                     <Form>
                         <Item>
-                            <Input
-                                onChangeText={(phone) => this.props.setPhone(phone)} 
-                                value={this.props.phone}
-                                placeholder="Phone Number"
-                                keyboardType="phone-pad"
-                            />
+                            <View style={styles.signUp}>
+                                <Image source={BDFlagImage} style={styles.flag} />
+                                <Text style={{ fontSize: 18, paddingHorizontal: 10 }} >+88</Text>
+                                <Input
+                                    onChangeText={(phone) => this.props.setPhone(phone)}
+                                    value={this.props.phone}
+                                    placeholder="Enter your mobile number"
+                                    keyboardType="phone-pad"
+                                />
+                            </View>
                         </Item>
                         <Item last>
                             <Input
                                 onChangeText={(password) => this.props.setPassword(password)}
                                 value={this.props.password}
-                                placeholder="Password"
+                                placeholder="Enter your password"
                                 secureTextEntry
                             />
                         </Item>
                     </Form>
-                    <Button 
+                    <Button
                         onPress={() => this.signMeIn(this.props.phone, this.props.password)}
                         block
                         style={{ margin: 15, marginTop: 50 }}
@@ -87,10 +88,10 @@ class signIn extends Component {
                     </Button>
                     <View style={styles.signUp}>
                         <Text>Dont Have An Account?</Text>
-                        <Button 
+                        <Button
                             onPress={() => this.props.navigation.navigate('signUpPhone')}
                             transparent
-                            info 
+                            info
                         >
                             <Text>Sign UP</Text>
                         </Button>
@@ -109,8 +110,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setPhone: phoneNumber => dispatch(setPhone(phoneNumber)),
-    setPassword: password => dispatch(setPassword(password)),
+    setPhone: (phoneNumber) => dispatch(setPhone(phoneNumber)),
+    setPassword: (password) => dispatch(setPassword(password)),
     submitForm: (isSubmitted) => dispatch(submitForm(isSubmitted)),
     logInSuccess: (user) => dispatch(logInSuccess(user)),
     logInFailed: (user) => dispatch(logInFailed(user))
@@ -130,5 +131,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap'
+    },
+    flag: {
+        height: 24,
+        width: 24,
+        resizeMode: 'contain'
     }
 });
