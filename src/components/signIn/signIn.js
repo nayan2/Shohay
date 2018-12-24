@@ -17,7 +17,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import fireBase from 'firebase';
-import { setPhone, setPassword, submitForm, logInSuccess, logInFailed } from '../../actions';
+import { signInActions } from '../../actions';
 import { displayErrorMessage } from '../../helpers';
 
 const BDFlagImage = require('../../assets/bd-flag.png');
@@ -110,11 +110,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setPhone: (phoneNumber) => dispatch(setPhone(phoneNumber)),
-    setPassword: (password) => dispatch(setPassword(password)),
-    submitForm: (isSubmitted) => dispatch(submitForm(isSubmitted)),
-    logInSuccess: (user) => dispatch(logInSuccess(user)),
-    logInFailed: (user) => dispatch(logInFailed(user))
+    setPhone: (phoneNumber) => dispatch(signInActions.setPhone(phoneNumber)),
+    setPassword: (password) => dispatch(signInActions.setPassword(password)),
+    submitForm: (isSubmitted) => dispatch(signInActions.submitForm(isSubmitted)),
+    logInSuccess: (user) => dispatch(signInActions.logInSuccess(user)),
+    logInFailed: (user) => dispatch(signInActions.logInFailed(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(signIn);
