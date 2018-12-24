@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import fireBase from 'firebase';
 import { connect } from 'react-redux';
 import { Container, Content, Spinner } from 'native-base';
-import { logInSuccess, logInFailed } from './actions';
+import { signInActions } from './actions';
 
 class LoadingScreen extends Component {
     componentWillMount() {
@@ -41,8 +41,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    logInSuccess: user => dispatch(logInSuccess(user)),
-    logInFailed: user => dispatch(logInFailed(user))
+    logInSuccess: user => dispatch(signInActions.logInSuccess(user)),
+    logInFailed: user => dispatch(signInActions.logInFailed(user))
 });
 
 export default connect(
