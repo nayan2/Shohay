@@ -16,7 +16,7 @@ import {
     View,
 } from 'native-base';
 import { connect } from 'react-redux';
-import fireBase from 'firebase';
+import firebase from 'react-native-firebase';
 import { signInActions } from '../../actions';
 import { displayErrorMessage } from '../../helpers';
 
@@ -31,14 +31,15 @@ class signIn extends Component {
 
     signMeIn = async (phone, password) => {
         try {
-            const email = `${phone}@shohay.com`;
-            fireBase.auth().signInWithEmailAndPassword(email, password)
+            const email = `+88${phone}@shohay.com`;
+            firebase.auth().signInWithEmailAndPassword(email, password)
                 .then((user) => {
                     this.props.logInSuccess(user);
                 })
                 .catch((error) => {
-                    this.props.logInFailed({});
                     console.log(error);
+                    //do some operation//
+                    this.props.logInFailed({});
                     displayErrorMessage('Invalid PhoneNumber Or Password');
                 });
         } catch (error) {

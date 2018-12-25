@@ -3,9 +3,7 @@ import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import { View, StyleSheet, YellowBox } from 'react-native';
 import { Provider } from 'react-redux';
 import { Root } from 'native-base';
-import fireBase from 'firebase';
 import store from './src/store';
-import { fireBase as fireBaseConfig } from './app.json';
 import dashboard from './src/components/dashboard';
 import signIn from './src/components/signIn/signIn';
 import signUp from './src/components/signUp/signUp';
@@ -16,7 +14,6 @@ import LoadingScreen from './src/loadingScreen';
 class App extends Component {
   componentWillMount() {
     YellowBox.ignoreWarnings(['Remote debugger']);
-    fireBase.initializeApp(fireBaseConfig);
   }
 
   render() {

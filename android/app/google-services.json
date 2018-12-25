@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "209458354067",
+    "firebase_url": "https://shohay-a6fe1.firebaseio.com",
+    "project_id": "shohay-a6fe1",
+    "storage_bucket": "shohay-a6fe1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209458354067:android:f0f3a4b8057cc581",
+        "android_client_info": {
+          "package_name": "com.shohay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209458354067-3jpm6cdvjr1e9hc05lm1f3c8g1n6siqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shohay",
+            "certificate_hash": "77b17ebbde17fbb2411f45a4beec3fcd96169ad1"
+          }
+        },
+        {
+          "client_id": "209458354067-ugjiq245fa8gsgj627be0kmbhst1eu1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxx2NPy7fdu5SJ9Mb95NOZ4LEnxHS3oUs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209458354067-ugjiq245fa8gsgj627be0kmbhst1eu1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,11 +1,11 @@
 export const signInActions = {
     logInSuccess: (user) => ({
         type: 'LOGIN_SUCCESS',
-        user
+        payload: user
     }),
     logInFailed: (user) => ({
         type: 'LOGIN_FAILED',
-        user
+        payload: user
     }),
     setPhone: (phoneNumber) => ({
         type: 'SET_PHONE',
@@ -37,6 +37,10 @@ export const signUpActions = {
     setSignupConfirmPassword: (password) => ({
         type: 'SET_SIGNUP_CONFIRM_PASSWORD',
         payload: password
+    }),
+    confirmResult: (confirmResult) => ({
+        type: 'SET_SIGNUP_PHONE_CONFIRM_RESULT',
+        payload: confirmResult
     }),
     signupPhoneSubmit: (status) => ({
         type: 'SUBMIT_SIGNUP_PHONE',

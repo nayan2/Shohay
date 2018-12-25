@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import fireBase from 'firebase';
+import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { Container, Content, Spinner } from 'native-base';
 import { signInActions } from './actions';
 
 class LoadingScreen extends Component {
     componentWillMount() {
-        fireBase.auth().onAuthStateChanged(user => {
+        firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                this.props.logInSuccess(user);
+                this.props.logInSuccess(user.toJSON());
                 this.checkUserStatus();
             } else {
                 this.props.logInFailed(user);
@@ -19,7 +19,6 @@ class LoadingScreen extends Component {
     }
 
     checkUserStatus() {
-        console.log(this.props.user);
         this.props.navigation.navigate(
             this.props.user.isLoggedIn ? 'AuthLoaded' : 'SignInScreen'
         );

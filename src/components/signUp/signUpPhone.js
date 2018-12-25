@@ -18,7 +18,7 @@ import {
   Item
 } from 'native-base';
 import { connect } from 'react-redux';
-import fireBase from 'firebase';
+import firebase from 'react-native-firebase';
 import { signUpActions } from '../../actions';
 import { displayErrorMessage } from '../../helpers';
 
@@ -30,16 +30,33 @@ class signUpPhone extends Component {
         this.props.navigation.navigate('SignInScreen');
     }
 
+    navigate = (screenName) => {
+        this.props.navigation.navigate(screenName);
+    }
+
     swipeRight = (phone) => {
         try {
             if (phone.length < 11 || phone.length >= 12) {
                 displayErrorMessage('Invalid Phone nUmber');
             } else {
-                fireBase.auth().signInWithPhoneNumber(phone)
-                        .then((result) => { console.log(result); });
+                const phoneNumber = `+88${phone}`;
+                console.log(phoneNumber);
+                firebase.auth().signInWithPhoneNumber(phoneNumber)
+                    .then((confirmResult) => {
+                        console.log(confirmResult);
+                        //do some operation//
+                        this.props.confirmResult(confirmResult);
+                        this.navigate('signUpConfirmCode');
+                    })
+                    .catch((error) => {
+                        const { code, message } = error;
+                        console.log([code, message]);
+                        //do some operation//
+                        displayErrorMessage('Something went wrong! Try again after some time. or check your internet connection');
+                    });
             }
         } catch (error) {
-            console.log(['error in swipe right ...', error]);
+            console.log(['something went wrong in catch block', error]);
         }
     }
 
@@ -106,7 +123,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setSignupPhone: (phone) => dispatch(signUpActions.setSignupPhone(phone)),
-    signupPhoneSubmit: (status) => dispatch(signUpActions.signupPhoneSubmit(status))
+    signupPhoneSubmit: (status) => dispatch(signUpActions.signupPhoneSubmit(status)),
+    confirmResult: (confirmResult) => dispatch(signUpActions.confirmResult(confirmResult))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(signUpPhone);

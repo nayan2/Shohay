@@ -1,5 +1,6 @@
 const initState = { 
     phone: '',
+    confirmResult: {},
     confirmCode: '',
     password: '',
     confirmPassword: '',
@@ -13,6 +14,8 @@ const SignUp = (state = initState, action) => {
     switch (action.type) {
         case 'SET_SIGNUP_PHONE':
             return { ...state, phone: action.payload };
+        case 'SET_SIGNUP_PHONE_CONFIRM_RESULT':
+            return { ...state, confirmResult: action.payload };
         case 'SET_SIGNUP_CONFIRMCODE':
             return { ...state, confirmCode: action.payload };
         case 'SET_SIGNUP_PASSWORD':
