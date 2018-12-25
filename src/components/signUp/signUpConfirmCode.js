@@ -15,35 +15,47 @@ import {
     Right,
     Input,
     Form,
-    Item
+    Item,
+    Spinner
   } from 'native-base';
 import { connect } from 'react-redux';
 import { signUpActions } from '../../actions';
 import { displayErrorMessage } from '../../helpers';
 
 class signUpConfirmCode extends Component {
-    swipeRight = (code) => {
+    state = { isLoading: false }
+
+    swipeRight = (vCode) => {
         try {
-            if (code.length <= 0 || code.length >= 10) {
-                displayErrorMessage('Invalid code! pls check again.');
+            if (!vCode.length || vCode.length >= 10) {
+                displayErrorMessage('Invalid verification code! pls check again.');
             } else {
-                this.props.confirmResult.confirm(code)
+                this.setState({ isLoading: true });
+                this.props.confirmResult.confirm(vCode)
                     .then((user) => {
-                        console.log(['use confirmed', user]);
-                        // If you need to do anything with the user, do it here
-                        // The user will be logged in automatically by the
-                        // `onAuthStateChanged` listener we set up in App.js earlier
+                        if (!user) {
+                            displayErrorMessage('Invalid code! try again.'); 
+                        }
                     })
                     .catch((error) => {
                         const { code, message } = error;
-                        console.log(['error occur on user confirmation', message]);
-                        // For details of error codes, see the docs
-                        // The message contains the default Firebase string
-                        // representation of the error
+                        console.log(['error occur on user confirmation', code, message]);
+                        displayErrorMessage('Invalid code! try again.');
                     });
+                this.setState({ isLoading: false });
             }
         } catch (error) {
             console.log(['something went wrong in catch block', error]);
+        }
+    }
+
+    renderLoading = () => {
+        if (this.state.isLoading) {
+            return (
+                <Content>
+                    <Spinner size="large" />
+                </Content>
+            );
         }
     }
 
@@ -64,6 +76,8 @@ class signUpConfirmCode extends Component {
                     </Body>
                     <Right />
                 </Header>
+
+                {this.renderLoading()}
 
                 <Content padder>
                     <Card style={styles.mb}>

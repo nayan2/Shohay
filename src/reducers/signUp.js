@@ -7,7 +7,8 @@ const initState = {
     isPhoneSubmitted: false,
     isConfirmCodeSubmitted: false,
     isPasswordMatch: false,
-    isFormSubmitted: false
+    isFormSubmitted: false,
+    error: ''
  };
 
 const SignUp = (state = initState, action) => {
@@ -30,6 +31,8 @@ const SignUp = (state = initState, action) => {
             return { ...state, isPasswordMatch: action.payload };
         case 'SIGNUP_FORM_SUBMIT':
             return { ...state, isFormSubmitted: action.payload };
+        case 'SIGNUP_ERROR':
+            return { ...state, error: action.payload };
         default:
             return state;
     }

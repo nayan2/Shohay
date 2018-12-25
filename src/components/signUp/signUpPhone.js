@@ -15,7 +15,8 @@ import {
   Right,
   Input,
   Form,
-  Item
+  Item,
+  Spinner
 } from 'native-base';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
@@ -25,28 +26,27 @@ import { displayErrorMessage } from '../../helpers';
 const BDFlagImage = require('../../assets/bd-flag.png');
 
 class signUpPhone extends Component {
+    state = { isLoading: false }
+
     goBack = () => {
         this.props.setSignupPhone('');
         this.props.navigation.navigate('SignInScreen');
     }
 
-    navigate = (screenName) => {
-        this.props.navigation.navigate(screenName);
-    }
-
     swipeRight = (phone) => {
         try {
-            if (phone.length < 11 || phone.length >= 12) {
-                displayErrorMessage('Invalid Phone nUmber');
+            if (!phone.length || phone.length < 11 || phone.length >= 12) {
+                displayErrorMessage('Invalid Phone number!');
             } else {
+                this.props.signupPhoneSubmit(true);
+                this.setState({ isLoading: true });
+
                 const phoneNumber = `+88${phone}`;
-                console.log(phoneNumber);
                 firebase.auth().signInWithPhoneNumber(phoneNumber)
                     .then((confirmResult) => {
                         console.log(confirmResult);
                         //do some operation//
                         this.props.confirmResult(confirmResult);
-                        this.navigate('signUpConfirmCode');
                     })
                     .catch((error) => {
                         const { code, message } = error;
@@ -54,9 +54,20 @@ class signUpPhone extends Component {
                         //do some operation//
                         displayErrorMessage('Something went wrong! Try again after some time. or check your internet connection');
                     });
+                this.setState({ isLoading: false });
             }
         } catch (error) {
             console.log(['something went wrong in catch block', error]);
+        }
+    }
+
+    renderLoading = () => {
+        if (this.state.isLoading) {
+            return (
+                <Content>
+                    <Spinner size="large" />
+                </Content>
+            );
         }
     }
 
@@ -77,6 +88,8 @@ class signUpPhone extends Component {
                     </Body>
                     <Right />
                 </Header>
+
+                {this.renderLoading()}
 
                 <Content padder>
                     <Card style={styles.mb}>

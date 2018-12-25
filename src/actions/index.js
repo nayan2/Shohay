@@ -57,5 +57,9 @@ export const signUpActions = {
     signFormSubmit: (status) => ({
         type: 'SIGNUP_FORM_SUBMIT',
         payload: status 
+    }),
+    setError: (message) => ({
+        type: 'SIGNUP_ERROR',
+        payload: message
     })
 };
