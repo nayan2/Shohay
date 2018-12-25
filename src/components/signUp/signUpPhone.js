@@ -33,6 +33,12 @@ class signUpPhone extends Component {
         this.props.navigation.navigate('SignInScreen');
     }
 
+    displayError() {
+        if (this.props.error) {
+            displayErrorMessage(this.props.error);
+        }
+    }
+
     swipeRight = (phone) => {
         try {
             if (!phone.length || phone.length < 11 || phone.length >= 12) {
@@ -90,6 +96,7 @@ class signUpPhone extends Component {
                 </Header>
 
                 {this.renderLoading()}
+                {this.displayError()}
 
                 <Content padder>
                     <Card style={styles.mb}>
@@ -131,7 +138,8 @@ class signUpPhone extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    phone: state.SignUp.phone
+    phone: state.SignUp.phone,
+    error: state.SignUp.error
 });
 
 const mapDispatchToProps = (dispatch) => ({

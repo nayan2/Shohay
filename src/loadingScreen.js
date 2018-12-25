@@ -15,6 +15,7 @@ class LoadingScreen extends Component {
                 if (user.phoneNumber && user.email === null && user.isAnonymous === false) {
                     this.completeSignUpProcess(user.toJSON());
                 } else {
+                    
                     this.props.logInSuccess(user.toJSON());
                     this.checkUserStatus();
                 }
